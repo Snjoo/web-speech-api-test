@@ -7,7 +7,8 @@
 
 <h1>Puhe synte ti saattori</h1>
 Teksti: <input id="text" type="text" name="text">
-Nopeus: <input id="speed" type="number" step="0.1" name="speed">
+Nopeus: <input id="speed" type="number" step="0.1" name="speed" value=1>
+Äänenkorkeus: <input id="pitch" type="number" step="0.1" name="pitch" value=1>
 <select id="voiceSelect"></select>
 <button type="button" onclick="speak()">Puhu!</button>
 
@@ -25,6 +26,7 @@ function speak() {
   u.text = document.getElementById('text').value;
   u.lang = lang
   u.rate = document.getElementById('speed').value;
+  u.pitch = document.getElementById('pitch').value;
   speechSynthesis.speak(u);
 }
 

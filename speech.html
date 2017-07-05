@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Paras puhe synte ti saattor i</title>
+</head>
+<body>
+
+<h1>Puhe synte ti saattori</h1>
+Teksti: <input id="text" type="text" name="text">
+Nopeus: <input id="speed" type="number" step="0.1" name="speed">
+<button type="button" onclick="speak()">Puhu!</button>
+
+</body>
+</html>
+
+<script>
+function speak(speed, text) {
+  var u = new SpeechSynthesisUtterance();
+  u.text = document.getElementById('text').value;
+  u.lang = 'fi-FI';
+  u.rate = document.getElementById('speed').value;
+  speechSynthesis.speak(u);
+}
+</script>

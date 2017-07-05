@@ -8,6 +8,7 @@
 <h1>Puhe synte ti saattori</h1>
 Teksti: <input id="text" type="text" name="text">
 Nopeus: <input id="speed" type="number" step="0.1" name="speed">
+<select id="voiceSelect"></select>
 <button type="button" onclick="speak()">Puhu!</button>
 
 </body>
@@ -15,10 +16,41 @@ Nopeus: <input id="speed" type="number" step="0.1" name="speed">
 
 <script>
 function speak(speed, text) {
+
+  var sel = document.getElementById('voiceSelect');
+  var selected = sel.options[sel.selectedIndex];
+  var lang = selected.getAttribute('data-lang');
+
   var u = new SpeechSynthesisUtterance();
   u.text = document.getElementById('text').value;
-  u.lang = 'fi-FI';
+  u.lang = lang
   u.rate = document.getElementById('speed').value;
   speechSynthesis.speak(u);
+}
+
+function populateVoiceList() {
+  if(typeof speechSynthesis === 'undefined') {
+    return;
+  }
+
+  voices = speechSynthesis.getVoices();
+
+  for(i = 0; i < voices.length ; i++) {
+    var option = document.createElement('option');
+    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+
+    if(voices[i].default) {
+      option.textContent += ' -- DEFAULT';
+    }
+
+    option.setAttribute('data-lang', voices[i].lang);
+    option.setAttribute('data-name', voices[i].name);
+    document.getElementById("voiceSelect").appendChild(option);
+  }
+}
+
+populateVoiceList();
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = populateVoiceList;
 }
 </script>
